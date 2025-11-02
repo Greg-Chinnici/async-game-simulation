@@ -12,6 +12,11 @@ My final idea for this is to have a website where the simulation is livestreamed
 ## Architecture
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 flowchart LR
     A[User] -->|POST JSON command| B[FastAPI Server]
     B -->|Validate username + IP| C[SQLite Database]
