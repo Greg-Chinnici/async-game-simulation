@@ -1,3 +1,9 @@
-curl -X POST http://127.0.0.1:8080/create \
--H "Content-Type: application/json" \
--d '{"username":"greg6"}'
+#!/bin/bash
+
+USERNAME=${1:?Username required}
+
+URL="http://127.0.0.1:8080/create"
+
+curl -X POST "$URL" \
+  -H "Content-Type: application/json" \
+  -d "{\"username\":\"$USERNAME\"}"
