@@ -30,15 +30,15 @@ flowchart LR
 ## Goals
 
 ### User Management
-[x] Map user username + IP → UUID for each character.
-[x] Maintain user data in SQLite.
+- [x] Map user username + IP → UUID for each character.
+- [x] Maintain user data in SQLite.
 ### Simulation Control API
-[ ] Accept and validate JSON commands.
-[ ] Support basic actions: spawn, move_to, sleep, dance.
-[x] Enforce per-IP rate limiting.
+- [ ] Accept and validate JSON commands.
+- [ ] Support basic actions: spawn, move_to, sleep, dance.
+- [x] Enforce per-IP rate limiting.
 ### Async Command Queue
-[x] Queue commands asynchronously for high performance.
-[ ] Send commands to Unity/debug TCP server over TCP.
+- [x] Queue commands asynchronously for high performance.
+- [ ] Send commands to Unity/debug TCP server over TCP.
 ### Extensibility
-[ ] Add new commands easily through a central API.
-[ ] Scale to multiple users and multiple characters
+- [ ] Add new commands easily through a central API.
+- [ ] Scale to multiple users and multiple characters
