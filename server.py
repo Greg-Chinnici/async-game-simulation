@@ -8,6 +8,7 @@ import uvicorn
 from uvicorn import lifespan
 import uuid
 import socket
+from sqlops import createdb, deletedb
 
 DB_PATH = "users.db"
 UNITY_HOST = "127.0.0.1"
@@ -61,8 +62,11 @@ app = FastAPI()
 
 @app.on_event("startup")
 async def startup_event():
+    deletedb()
+    createdb()
+
     asyncio.create_task(send_to_unity())
-    print("[INFO] Unity TCP sender started")
+    print("[INFO] Unity UDP sender started")
 
 @app.post("/control")
 async def control(request: Request):
