@@ -1,6 +1,6 @@
 #!/bin/bash
 
-repsonse=$(./sendCreate.sh 'user3')
+repsonse=$(./sendCreate.sh 'user11')
 username=$(echo $repsonse | jq -r '.username')
 
 json1='{"movement":"forward","duration":5}'

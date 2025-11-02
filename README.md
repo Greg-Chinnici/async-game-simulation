@@ -5,7 +5,8 @@
 The **Simulation Control Server** allows users to control characters in a Unity simulation in real-time via HTTP POST requests. Each user controls a character identified by a unique UUID, which is validated against their registered IP. Commands are queued asynchronously and sent over TCP to Unity or a debug server for testing.
 
 This system enables multi-user interactions in a headless simulation environment while enforcing rate limits and ensuring secure access.
-My final idea for this is to have a website where the simulation is livestreamed and gives users a curl template to send in requests to update and play in the simulation. 
+
+My final idea for this is to have a website where the simulation is livestreamed and gives users a curl template to send in requests to update and play in the simulation. The site will be a statically gnerated site with integrated docs for each Game with all the needed reuqests to play. 
 
 ---
 

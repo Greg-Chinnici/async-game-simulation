@@ -7,6 +7,7 @@ import aiosqlite
 import uvicorn  
 from uvicorn import lifespan
 import uuid
+import socket
 
 DB_PATH = "users.db"
 UNITY_HOST = "127.0.0.1"
@@ -19,14 +20,13 @@ USERS_PER_IP = 10
 COMMAND_QUEUE = asyncio.Queue()
 
 async def send_to_unity():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    
     while True:
         cmd = await COMMAND_QUEUE.get()
         try:
-            reader, writer = await asyncio.open_connection(UNITY_HOST, UNITY_PORT)
-            writer.write((json.dumps(cmd) + "\n").encode())
-            await writer.drain()
-            writer.close()
-            await writer.wait_closed()
+            message = (json.dumps(cmd) + "\n").encode()
+            sock.sendto(message, (UNITY_HOST, UNITY_PORT))
         except Exception as e:
             print(f"[ERROR] Sending to Unity failed: {e}")
         await asyncio.sleep(0.01)
