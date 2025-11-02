@@ -14,4 +14,4 @@ wheels/
 
 # Database files
 users.db
-sql.py
+sqlops.py

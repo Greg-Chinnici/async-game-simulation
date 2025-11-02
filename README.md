@@ -53,3 +53,5 @@ flowchart LR
 
 ### Future
 - [ ] Move off of python fast api. (Go , Rust (actix))
+- [ ] Be able to hotswap games without relaunching the unity game
+  - DI the new gmae commands into the UDP Listener
