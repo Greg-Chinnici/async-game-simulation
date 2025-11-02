@@ -1,6 +1,7 @@
 #!/bin/bash
 
-repsonse=$(./sendCreate.sh 'user11')
+userNumber="user"$RANDOM
+repsonse=$(./sendCreate.sh "$userNumber")
 username=$(echo $repsonse | jq -r '.username')
 
 json1='{"movement":"forward","duration":5}'
