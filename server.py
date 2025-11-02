@@ -14,6 +14,7 @@ UNITY_PORT = 9000
 
 RATE_LIMIT_SECONDS = 1
 last_seen = {}
+USERS_PER_IP = 10
 
 COMMAND_QUEUE = asyncio.Queue()
 
@@ -50,6 +51,12 @@ def check_rate_limit(ip):
     last_seen[ip] = now
     return True
 
+async def check_user_ip_limit(ip):
+    async with aiosqlite.connect(DB_PATH) as db:
+        async with db.execute("SELECT COUNT(*) FROM users WHERE ip=?", (ip,)) as cursor:
+            row = await cursor.fetchone()
+            return row[0] < USERS_PER_IP
+
 app = FastAPI()
 
 @app.on_event("startup")
@@ -71,6 +78,9 @@ async def control(request: Request):
 
     if not check_rate_limit(client_ip):
         raise HTTPException(status_code=429, detail="Rate limit exceeded")
+
+    if not check_user_ip_limit(client_ip):
+        raise HTTPException(status_code=429, detail="User Limit Per IP Reached")
 
     user = await get_user(username)
     if not user:

@@ -32,6 +32,7 @@ flowchart LR
 ### User Management
 - [x] Map user username + IP → UUID for each character.
 - [x] Maintain user data in SQLite.
+- [x] Max Players per IP
 ### Simulation Control API
 - [ ] Accept and validate JSON commands.
 - [ ] Support basic actions: spawn, move_to, sleep, dance.
