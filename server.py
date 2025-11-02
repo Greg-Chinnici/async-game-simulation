@@ -97,7 +97,7 @@ async def control(request: Request):
         "params": params
     })
 
-    return JSONResponse({"status": "ok", "uuid": uuid, "message": "Command enqueued"})
+    return JSONResponse({"status": "ok","message": "Command enqueued",  "uuid": uuid, "command": command, "params": params})
 
 @app.post("/create")
 async def create(request: Request):
@@ -111,7 +111,15 @@ async def create(request: Request):
     if user is not None:
         raise HTTPException(status_code=403, detail="User already exists")
     new_uuid = await add_new_user(username, client_ip)
-    return JSONResponse({"status": "ok", "message": "User created" , "data" : {"uuid": new_uuid , "ip": client_ip , "username": username}})
+    
+    await COMMAND_QUEUE.put({
+        "username": username,
+        "uuid": new_uuid,
+        "command": "create",
+        "params": ""
+    })
+
+    return JSONResponse({"status": "ok", "message": "User created" , "uuid": new_uuid , "ip": client_ip , "username": username})
     
     
 
