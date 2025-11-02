@@ -35,6 +35,7 @@ flowchart LR
 - [x] Max Players per IP
 ### Simulation Control API
 - [ ] Accept and validate JSON commands.
+    - Per command Models / Types
 - [ ] Support basic actions: spawn, move_to, sleep, dance.
 - [x] Enforce per-IP rate limiting.
 ### Async Command Queue
@@ -43,3 +44,6 @@ flowchart LR
 ### Extensibility
 - [ ] Add new commands easily through a central API.
 - [ ] Scale to multiple users and multiple characters
+
+### Future
+- [ ] Move off of python fast api. (Go , Rust (actix))
