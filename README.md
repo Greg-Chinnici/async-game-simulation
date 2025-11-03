@@ -8,7 +8,19 @@ This system enables multi-user interactions in a headless simulation environment
 
 My final idea for this is to have a website where the simulation is livestreamed and gives users a curl template to send in requests to update and play in the simulation. The site will be a statically gnerated site with integrated docs for each Game with all the needed reuqests to play. 
 
+the main apis are:
+- `/create`
+- `/control -d json`
+- `/remove`
+
 ---
+
+### How to Run It
+1. Have a Unity gmae that can use the UDPListener in the `Games` folder
+2. look at `bulk.sh` , `send.sh`
+3. `uv run server.py`
+4. Start the Unity Game Instance
+5. curl and post your requests
 
 ## Architecture
 
