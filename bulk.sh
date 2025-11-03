@@ -12,6 +12,7 @@ json4='{"voice":"soft","emotion":"mad"}'
 
 # send multiple commands using send with generic command
 sleep 0.5
+echo 'sending at: ' +  $(gdate -u +"%H:%M:%S.%N")
 ./send.sh "$username" "move" "$json1" | jq
 echo ''
 sleep 0.5
