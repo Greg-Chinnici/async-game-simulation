@@ -127,7 +127,32 @@ async def create(request: Request):
 
     return JSONResponse({"status": "ok", "message": "User created" , "uuid": new_uuid , "ip": client_ip , "username": username})
     
-    
+@app.post("/remove")
+async def remove(request: Request):
+    client_ip = request.client.host
+    data = await request.json()
+
+    username = data.get("username")
+    user = await get_user(username)
+    if not user:
+        raise HTTPException(status_code=403, detail="Unknown user")
+
+    users_uuid, ip = user
+    if client_ip != ip:
+        raise HTTPException(status_code=403, detail="IP mismatch")
+
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute("DELETE FROM users WHERE username=? AND ip=?", (username, client_ip))
+        await db.commit()
+
+    await COMMAND_QUEUE.put({
+        "username": username,
+        "uuid": users_uuid,
+        "command": "remove",
+        "params": {}
+    })
+
+    return JSONResponse({"status": "ok", "message": "User removed", "username": username})
 
 if __name__ == "__main__":
     uvicorn.run("server:app", host="0.0.0.0", port=8080, reload=True)

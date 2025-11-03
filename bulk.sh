@@ -4,7 +4,7 @@ userNumber="user"$RANDOM
 repsonse=$(./sendCreate.sh "$userNumber")
 username=$(echo $repsonse | jq -r '.username')
 
-json1='{"movement":"forward","duration":5}'
+json1='{"":"forward","duration":5}'
 json2='{"movement":"backward","duration":3}'
 json3='{"fly":"diagonal","duration":2}'
 json4='{"voice":"soft","emotion":"mad"}'
@@ -22,4 +22,7 @@ sleep 0.75
 echo ''
 sleep 1
 ./send.sh "$username" "speak" "$json4" | jq
+echo ''
+sleep 10
+./sendRemove.sh "$username" | jq
 echo ''
