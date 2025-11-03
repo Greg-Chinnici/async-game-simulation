@@ -83,7 +83,7 @@ async def control(request: Request):
     if not check_rate_limit(client_ip):
         raise HTTPException(status_code=429, detail="Rate limit exceeded")
 
-    if not check_user_ip_limit(client_ip):
+    if not await check_user_ip_limit(client_ip):
         raise HTTPException(status_code=429, detail="User Limit Per IP Reached")
 
     user = await get_user(username)

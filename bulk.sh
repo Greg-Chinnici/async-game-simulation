@@ -12,10 +12,14 @@ json4='{"voice":"soft","emotion":"mad"}'
 
 # send multiple commands using send with generic command
 sleep 0.5
-./send.sh "$username" "move" "$json1"
+./send.sh "$username" "move" "$json1" | jq
+echo ''
 sleep 0.5
-./send.sh "$username" "move" "$json2"
+./send.sh "$username" "move" "$json2" | jq
+echo '' 
 sleep 0.75
-./send.sh "$username" "fly" "$json3"
+./send.sh "$username" "fly" "$json3" | jq
+echo ''
 sleep 1
-./send.sh "$username" "speak" "$json4"
+./send.sh "$username" "speak" "$json4" | jq
+echo ''
