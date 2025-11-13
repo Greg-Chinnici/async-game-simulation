@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 public class UDPCommandListenerWithQueue : MonoBehaviour
 {
-    public int port = 9000;
+    public UdpQueueSettings settings;
     public MonoBehaviour gameCommandHandler; 
     private IGameCommands commandHandler;
 
@@ -27,13 +27,17 @@ public class UDPCommandListenerWithQueue : MonoBehaviour
             Debug.LogError("[UDP] gameCommandHandler must implement IGameCommands");
             return;
         }
+        settings.Initialize();
+        
+        IPAddress bindAddress = settings.allowRemoteConnections ? IPAddress.Any : IPAddress.Loopback;
 
-        udpClient = new UdpClient(port);
+        udpClient = new UdpClient(new IPEndPoint(bindAddress, settings.port));
+
         listenerThread = new Thread(ListenLoop);
         listenerThread.IsBackground = true;
         listenerThread.Start();
 
-        Debug.Log("[UDP] Listening on port " + port);
+        Debug.Log("[UDP] Listening on port " + settings.port);
         
         
         DontDestroyOnLoad(gameObject);
@@ -47,15 +51,20 @@ public class UDPCommandListenerWithQueue : MonoBehaviour
 
     private void ListenLoop()
     {
-        IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any , port);
+        IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any ,  0);
 
         while (true)
         {
             try
             {
                 byte[] data = udpClient.Receive(ref remoteEP);
+                if (!settings.ipTable.Contains(remoteEP.Address))
+                {
+                    Debug.LogWarning($"[UDP] Blocked packet from {remoteEP.Address}");
+                    continue;
+                }
+                
                 string json = Encoding.UTF8.GetString(data);
-
                 try
                 {
                     JObject commandObj = JObject.Parse(json);
@@ -111,3 +120,4 @@ public class UDPCommandListenerWithQueue : MonoBehaviour
         }
     }
 }
+
